@@ -1,0 +1,63 @@
+---
+jobs:
+- name: "global"
+  interval: '5m'
+  connections:
+  - url: 'jdbc:mysql://192.168.0.138:3306/uat_vbs?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&autoReconnect=true'
+    username: root
+    password: vicsonROOT
+  queries:
+  - name: "select_one"
+    help: "Number of running queries"
+    labels:
+      - "area_name"
+      - "web_type"
+      - "project_type"
+    values:
+      - "COUNT(*)"
+    query:  |
+            SELECT COUNT(*),AREA_NAME ,WEB_TYPE ,PROJECT_TYPE FROM TENDER GROUP BY AREA_NAME ,WEB_TYPE ,PROJECT_TYPE;
+  - name: "select_two"
+    help: "Number of running queries"
+    values:
+      - "count(*)"
+    query:  |
+            SELECT COUNT(*)  FROM  TC_FILE_ANALYSIS tfa  WHERE tfa.tenderid <> 0;
+  - name: "select_three"
+    help: "Number of running queries"
+    values:
+      - "count(*)"
+    query:  |
+            SELECT COUNT(*)  FROM  TC_FILE_ANALYSIS tfa  WHERE tfa.tenderid <> 0 AND TFA.NEED_CONTENT IS NOT NULL;
+  - name: "select_four"
+    help: "Number of running queries"
+    labels:
+      - "document_type"
+      - "states"
+      - "folder_id"    
+      - "user_id"    
+    values:
+      - "count(*)"
+    query:  |
+           SELECT COUNT(*),document_type,states,folder_id,ifnull(USER_ID , 0) user_id FROM TC_DOCUMENT td  WHERE DOCUMENT_TYPE = 'callbid' GROUP BY DOCUMENT_TYPE ,STATES ,FOLDER_ID ,USER_ID;
+  - name: "select_five"
+    help: "Number of running queries"
+    labels:
+      - "document_type"
+      - "states"
+      - "folder_id"    
+      - "user_id"    
+    values:
+      - "count(*)"
+    query:  |
+           SELECT COUNT(*),document_type,states,folder_id,ifnull(USER_ID , 0) USER_ID FROM TC_DOCUMENT td WHERE DOCUMENT_TYPE ='need' GROUP BY DOCUMENT_TYPE ,STATES ,FOLDER_ID ,USER_ID; 
+  - name: "select_six"
+    help: "Number of running queries"
+    labels:
+      - "template_type"
+      - "is_custom"
+      - "item_name"    
+    values:
+      - "count(*)"
+    query:  |
+           SELECT COUNT(*),template_type,is_custom,ifnull(ITEM_NAME , '') item_name FROM  TC_TEMPLATE GROUP BY TEMPLATE_TYPE ,IS_CUSTOM ,ITEM_NAME; 
