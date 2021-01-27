@@ -1,4 +1,13 @@
 spring:
+  redis:
+    host: redis.internal.dev.com
+    prot: 6379
+    #redis密码
+    password: vicson@321
+    encode: utf-8   
+    jedis:
+      pool:
+        maxIdle: 300
   application:
     name: demo
 server:
